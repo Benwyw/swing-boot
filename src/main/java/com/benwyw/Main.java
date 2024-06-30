@@ -2,6 +2,7 @@ package com.benwyw;
 
 import io.github.cdimascio.dotenv.Dotenv;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
@@ -33,17 +34,41 @@ public class Main {
     public DataSource dataSource() {
 
         // Create a DataSource object and set its properties
-        Dotenv config = Dotenv.configure().load();
+        Dotenv config = Dotenv.configure().ignoreIfMissing().load();
+
+        // Check if .env file exists
+        if (ObjectUtils.isEmpty(config) || config.entries().isEmpty()) {
+            log.warn(".env file not found. Using fallback values.");
+//            return createFallbackDataSource();
+            return null; // disable dataSource if auth not found
+        }
+
+        // Read properties from .env or use fallback values
+        String url = config.get("SPRING_DATASOURCE_URL", "jdbc:h2:mem:testdb");
+        String username = config.get("ORACLE_DB_USER", "sa");
+        String password = config.get("ORACLE_DB_PASSWORD", "");
 
         DataSource dataSource = DataSourceBuilder.create()
                 .driverClassName("oracle.jdbc.OracleDriver")
-                .url(config.get("SPRING_DATASOURCE_URL"))
-                .username(config.get("ORACLE_DB_USER"))
-                .password(config.get("ORACLE_DB_PASSWORD"))
+                .url(url)
+                .username(username)
+                .password(password)
                 .build();
 
         // Return the DataSource object
         return dataSource;
+    }
+
+    @Deprecated
+    private DataSource createFallbackDataSource() {
+        // Create a fallback DataSource with default or predefined values
+        // Adjust these values as needed
+        return DataSourceBuilder.create()
+                .driverClassName("org.h2.Driver")
+                .url("jdbc:h2:mem:testdb")
+                .username("sa")
+                .password("")
+                .build();
     }
 
     public static void main( String[] args ) {
