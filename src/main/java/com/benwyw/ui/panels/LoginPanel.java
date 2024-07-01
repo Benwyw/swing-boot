@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import javax.swing.*;
 import java.awt.*;
 
-import static com.benwyw.model.StatusConstant.LOGIN_SUCCESS_MESSAGE;
+import static com.benwyw.model.StatusConstant.*;
 
 @Slf4j
 @Component
@@ -20,9 +20,14 @@ public class LoginPanel extends JPanel {
     @Autowired
     private InfoPanel infoPanel;
 
+    @Autowired
+    private BatchPanel batchPanel;
+
     public LoginPanel(JPanel mainPanel, CardLayout cardLayout) {
         this.mainPanel = mainPanel;
         this.cardLayout = cardLayout;
+        setLayout(new GridBagLayout());
+        GridBagConstraints constraints = new GridBagConstraints();
 
         JButton loginButton = new JButton("Login");
         loginButton.addActionListener(e -> {
@@ -30,7 +35,19 @@ public class LoginPanel extends JPanel {
             infoPanel.appendText(LOGIN_SUCCESS_MESSAGE);
         });
 
-        add(loginButton);
+        JButton batchButton = new JButton("Batch");
+        batchButton.addActionListener(e -> {
+            this.cardLayout.show(this.mainPanel, PanelEnum.BATCH_PANEL.getName());
+            batchPanel.appendText(BATCH_INIT_SUCCESS_MESSAGE);
+        });
+
+        constraints.gridx = 0;
+
+        constraints.gridy = 0;
+        add(loginButton, constraints);
+
+        constraints.gridy = 1;
+        add(batchButton, constraints);
     }
 
 }

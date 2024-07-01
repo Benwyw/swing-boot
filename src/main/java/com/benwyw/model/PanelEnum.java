@@ -5,7 +5,8 @@ import lombok.Getter;
 @Getter
 public enum PanelEnum {
     LOGIN_PANEL("LoginPanel"),
-    INFO_PANEL("InfoPanel");
+    INFO_PANEL("InfoPanel"),
+    BATCH_PANEL("BatchPanel");
 
     private final String name;
 
