@@ -2,11 +2,14 @@ package com.benwyw.ui.panels;
 
 import com.benwyw.model.PanelEnum;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.swing.*;
 import java.awt.*;
 
 @Slf4j
+@Component
 public class LoginPanel extends JPanel {
 
     private JPanel mainPanel;

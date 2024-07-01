@@ -79,11 +79,11 @@ public class Main {
         System.setProperty("java.awt.headless", "false");
 
         ApplicationContext context = SpringApplication.run(Main.class, args);
+        MainFrame mainFrame = context.getBean(MainFrame.class);
 
         if (!GraphicsEnvironment.isHeadless()) {
             SwingUtilities.invokeLater(() -> {
-//                MainFrame mainFrame = context.getBean(MainFrame.class);
-                MainFrame mainFrame = new MainFrame();
+//                MainFrame mainFrame = new MainFrame();
                 mainFrame.setVisible(true);
             });
         } else {

@@ -1,8 +1,11 @@
 package com.benwyw.ui.panels;
 
 import com.benwyw.model.PanelEnum;
+import com.benwyw.service.MiscService;
 import com.benwyw.ui.dialogs.CustomNameDialog;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 
 import javax.swing.*;
@@ -10,13 +13,14 @@ import java.awt.*;
 import java.io.File;
 
 @Slf4j
+@Component
 public class InfoPanel extends JPanel {
 
     private JPanel mainPanel;
     private CardLayout cardLayout;
 
-//    @Autowired
-//    private MiscService miscService;
+    @Autowired
+    private MiscService miscService;
 
     /**
      * JMenu, JMenuItem, JMenuBar: These components are used to create menus in your application.
@@ -109,9 +113,9 @@ public class InfoPanel extends JPanel {
             log.info(String.format("User selected: %s", selectedItem));
             if ("Item 2".equals(selectedItem)) {
                 log.info("User selected item 2! Proceed to database operation...");
-//                long featureCount = miscService.getFeaturesCount();
-//                log.info(String.format("Database returned featureCount: %s", featureCount));
-//                textArea.setText(String.valueOf(featureCount));
+                long featureCount = miscService.getFeaturesCount();
+                log.info(String.format("Database returned featureCount: %s", featureCount));
+                textArea.setText(String.valueOf(featureCount));
             }
         });
         add(comboBox);
