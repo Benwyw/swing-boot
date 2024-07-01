@@ -6,7 +6,7 @@
 
     <groupId>com.benwyw</groupId>
     <artifactId>swing-boot</artifactId>
-    <version>v0.0.7</version>
+    <version>v0.0.8</version>
     <packaging>jar</packaging>
 
     <name>swing-boot</name>

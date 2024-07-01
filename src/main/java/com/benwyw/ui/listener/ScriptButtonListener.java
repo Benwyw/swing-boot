@@ -36,7 +36,7 @@ public class ScriptButtonListener implements ActionListener {
             // change lang to en and execute batch script
             String cmd = "cmd /c chcp 437 && " + resourcesPath + "batch/" + script;
             log.info(String.format("Running command: %s", cmd));
-            Process process = Runtime.getRuntime().exec(cmd);
+            Process process = Runtime.getRuntime().exec(cmd.split(" "));
             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
             BufferedReader errorReader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
             String line;

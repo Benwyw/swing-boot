@@ -1,18 +1,14 @@
 package com.benwyw.ui.panels;
 
 import com.benwyw.model.PanelEnum;
-import com.benwyw.service.MiscService;
-import com.benwyw.ui.dialogs.CustomNameDialog;
 import com.benwyw.ui.listener.ScriptButtonListener;
 import io.micrometer.common.util.StringUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
 import java.util.Locale;
 
 @Slf4j
