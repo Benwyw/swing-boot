@@ -39,62 +39,82 @@ public class InfoPanel extends JPanel {
     public InfoPanel(JPanel mainPanel, CardLayout cardLayout) {
         this.mainPanel = mainPanel;
         this.cardLayout = cardLayout;
-
-        // Layout
-//        setLayout(new BorderLayout());
         setLayout(new GridBagLayout());
         GridBagConstraints constraints = new GridBagConstraints();
 
-        // JTextArea at the top
-        JTextArea textArea = new JTextArea("You are now logged in!");
-        textArea.setEditable(false);
-        JScrollPane scrollPane = new JScrollPane(textArea);
-        constraints.gridx = 0;
+
+        /*
+        LINE 0
+         */
         constraints.gridy = 0;
+        constraints.gridx = 0;
+
+        // JTextArea at the top
+        JTextArea textArea = new JTextArea(20, 50);
+        textArea.setEditable(false);
+        textArea.setLineWrap(true);
+        textArea.setWrapStyleWord(true);
+        textArea.append("You are now logged in!");
+        JScrollPane scrollPane = new JScrollPane(textArea);
         constraints.weightx = 1.0;
         constraints.weighty = 1.0;
         constraints.gridwidth = GridBagConstraints.REMAINDER;
-        constraints.fill = GridBagConstraints.HORIZONTAL;
+        constraints.fill = GridBagConstraints.BOTH;
         add(scrollPane, constraints);
 
-        // JButton on the left
-        JButton leftButton = new JButton("Left");
+        /*
+        LINE 0+
+         */
+        constraints = new GridBagConstraints();
+        constraints.weightx = 1.0;
+        constraints.fill = GridBagConstraints.BOTH;
+
+        /*
+        LINE 1
+         */
+        constraints.gridy = 1;
+
+        // Back to LoginPanel
+        JButton leftButton = new JButton("Back");
         leftButton.addActionListener(e -> {
             this.cardLayout.show(this.mainPanel, PanelEnum.LOGIN_PANEL.getName());
         });
-        constraints = new GridBagConstraints();
-        constraints.gridx = 11;
-        constraints.gridy = 1;
+        constraints.gridx = 0;
         add(leftButton, constraints);
 
-        // JButton on the right
-        JButton rightButton = new JButton("Right");
+        // Upload files
+        JButton rightButton = new JButton("Upload");
         rightButton.addActionListener(e -> {
             JFileChooser fileChooser = new JFileChooser();
             int returnValue = fileChooser.showOpenDialog(null);
             if (returnValue == JFileChooser.APPROVE_OPTION) {
                 File selectedFile = fileChooser.getSelectedFile();
-                textArea.setText(selectedFile.getName());
+                textArea.append("\n" + selectedFile.getName());
             }
         });
-        constraints.gridx = 0;
-        constraints.gridy = 2;
+        constraints.gridx = 1;
         add(rightButton, constraints);
 
-        // JButton at the bottom
-        JButton bottomButton = new JButton("Bottom");
+        // Enter additional information
+        JButton bottomButton = new JButton("Enter");
         bottomButton.addActionListener(e -> {
             JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
             CustomNameDialog dialog = new CustomNameDialog(parentFrame);
             dialog.setVisible(true);
         });
-        constraints.gridx = 1;
-        constraints.gridy = 11;
+        constraints.gridx = 2;
         add(bottomButton, constraints);
+
+
+        /*
+        LINE 2
+         */
+        constraints.gridy = 2;
 
         // JCheckBox
         JCheckBox checkBox = new JCheckBox("Check me");
-        add(checkBox);
+        constraints.gridx = 0;
+        add(checkBox, constraints);
 
         // JRadioButton
         JRadioButton radioButton1 = new JRadioButton("Option 1");
@@ -102,8 +122,21 @@ public class InfoPanel extends JPanel {
         ButtonGroup group = new ButtonGroup();
         group.add(radioButton1);
         group.add(radioButton2);
-        add(radioButton1);
-        add(radioButton2);
+        constraints.gridx = 1;
+        add(radioButton1, constraints);
+        constraints.gridx = 2;
+        add(radioButton2, constraints);
+
+
+        /*
+        LINE 3
+         */
+        constraints.gridy = 3;
+
+        // JSlider
+        JSlider slider = new JSlider(JSlider.HORIZONTAL, 0, 50, 25);
+        constraints.gridx = 0;
+        add(slider, constraints);
 
         // JComboBox
         String[] items = {"Item 1", "Item 2", "Item 3"};
@@ -115,27 +148,41 @@ public class InfoPanel extends JPanel {
                 log.info("User selected item 2! Proceed to database operation...");
                 long featureCount = miscService.getFeaturesCount();
                 log.info(String.format("Database returned featureCount: %s", featureCount));
-                textArea.setText(String.valueOf(featureCount));
+                textArea.append("\n" + featureCount);
             }
         });
-        add(comboBox);
+        constraints.gridx = 2;
+        add(comboBox, constraints);
 
-        // JSlider
-        JSlider slider = new JSlider(JSlider.HORIZONTAL, 0, 50, 25);
-        add(slider);
+
+        /*
+        LINE 4
+         */
+        constraints.gridy = 4;
+
+        // JLabel
+        JLabel label = new JLabel("Password");
+        constraints.gridx = 0;
+        add(label, constraints);
 
         // JPasswordField
         JPasswordField passwordField = new JPasswordField(10);
-        add(passwordField);
+        constraints.gridwidth = GridBagConstraints.REMAINDER;
+        constraints.gridx = 1;
+        add(passwordField, constraints);
 
-        // JLabel
-        JLabel label = new JLabel("This is a label");
-        add(label);
+
+        /*
+        LINE 5
+         */
+        constraints.gridy = 5;
+        constraints.gridwidth = GridBagConstraints.REMAINDER;
 
         // JTextArea, JScrollPane
         JTextArea textAreaLarge = new JTextArea(5, 20);
         JScrollPane scrollPaneLarge = new JScrollPane(textAreaLarge);
-        add(scrollPaneLarge);
+        constraints.gridx = 0;
+        add(scrollPaneLarge, constraints);
     }
 
 }
