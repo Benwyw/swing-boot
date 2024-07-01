@@ -8,6 +8,8 @@ import org.springframework.stereotype.Component;
 import javax.swing.*;
 import java.awt.*;
 
+import static com.benwyw.model.StatusConstant.LOGIN_SUCCESS_MESSAGE;
+
 @Slf4j
 @Component
 public class LoginPanel extends JPanel {
@@ -15,17 +17,17 @@ public class LoginPanel extends JPanel {
     private JPanel mainPanel;
     private CardLayout cardLayout;
 
+    @Autowired
+    private InfoPanel infoPanel;
+
     public LoginPanel(JPanel mainPanel, CardLayout cardLayout) {
         this.mainPanel = mainPanel;
         this.cardLayout = cardLayout;
 
         JButton loginButton = new JButton("Login");
         loginButton.addActionListener(e -> {
-//            mainPanel = (JPanel) getParent();
-//            CardLayout cardLayout = (CardLayout) mainPanel.getLayout();
-
-            // TODO global String or ENUM
             this.cardLayout.show(this.mainPanel, PanelEnum.INFO_PANEL.getName());
+            infoPanel.appendText(LOGIN_SUCCESS_MESSAGE);
         });
 
         add(loginButton);

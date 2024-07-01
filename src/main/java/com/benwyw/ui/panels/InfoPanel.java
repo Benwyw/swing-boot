@@ -3,6 +3,7 @@ package com.benwyw.ui.panels;
 import com.benwyw.model.PanelEnum;
 import com.benwyw.service.MiscService;
 import com.benwyw.ui.dialogs.CustomNameDialog;
+import io.micrometer.common.util.StringUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -18,6 +19,7 @@ public class InfoPanel extends JPanel {
 
     private JPanel mainPanel;
     private CardLayout cardLayout;
+    private JTextArea textArea;
 
     @Autowired
     private MiscService miscService;
@@ -50,11 +52,10 @@ public class InfoPanel extends JPanel {
         constraints.gridx = 0;
 
         // JTextArea at the top
-        JTextArea textArea = new JTextArea(20, 50);
+        textArea = new JTextArea(20, 50);
         textArea.setEditable(false);
         textArea.setLineWrap(true);
         textArea.setWrapStyleWord(true);
-        textArea.append("You are now logged in!");
         JScrollPane scrollPane = new JScrollPane(textArea);
         constraints.weightx = 1.0;
         constraints.weighty = 1.0;
@@ -89,7 +90,7 @@ public class InfoPanel extends JPanel {
             int returnValue = fileChooser.showOpenDialog(null);
             if (returnValue == JFileChooser.APPROVE_OPTION) {
                 File selectedFile = fileChooser.getSelectedFile();
-                textArea.append("\n" + selectedFile.getName());
+                appendText(selectedFile.getName());
             }
         });
         constraints.gridx = 1;
@@ -99,7 +100,7 @@ public class InfoPanel extends JPanel {
         JButton bottomButton = new JButton("Enter");
         bottomButton.addActionListener(e -> {
             JFrame parentFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
-            CustomNameDialog dialog = new CustomNameDialog(parentFrame);
+            CustomNameDialog dialog = new CustomNameDialog(parentFrame, this);
             dialog.setVisible(true);
         });
         constraints.gridx = 2;
@@ -148,7 +149,7 @@ public class InfoPanel extends JPanel {
                 log.info("User selected item 2! Proceed to database operation...");
                 long featureCount = miscService.getFeaturesCount();
                 log.info(String.format("Database returned featureCount: %s", featureCount));
-                textArea.append("\n" + featureCount);
+                appendText(String.valueOf(featureCount));
             }
         });
         constraints.gridx = 2;
@@ -185,4 +186,14 @@ public class InfoPanel extends JPanel {
         add(scrollPaneLarge, constraints);
     }
 
+    /**
+     * Append text to console
+     * @param text String
+     */
+    public void appendText(String text) {
+        if (StringUtils.isNotBlank(textArea.getText())) {
+            textArea.append("\n");
+        }
+        textArea.append(text);
+    }
 }
